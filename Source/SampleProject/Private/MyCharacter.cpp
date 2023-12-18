@@ -15,7 +15,13 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (ACharacter* pCharacter = Cast<ACharacter>(this))
+	{
+		pCharacter->GetMesh();
+	}
+
+	TMap<int, AActor*> test;
 }
 
 // Called every frame
