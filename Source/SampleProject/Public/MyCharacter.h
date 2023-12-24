@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TZCore/Public/Interface/PlayerInteractionInterface.h"
 #include "MyCharacter.generated.h"
 
+class IAvatarInteractableInterface;
+
 UCLASS()
-class SAMPLEPROJECT_API AMyCharacter : public ACharacter
+class SAMPLEPROJECT_API AMyCharacter : public ACharacter, public IPlayerInteractionInterface
 {
 	GENERATED_BODY()
 
@@ -25,5 +28,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	//================ Interact =======================
+public:
+	void SetInteractedInterface(IAvatarInteractableInterface* pInteractedInterface) {}
 
+protected:
+	virtual void OnUpdatePriorityInteractiveObject() override;
 };

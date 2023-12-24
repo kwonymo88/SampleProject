@@ -38,3 +38,8 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+void AMyCharacter::OnUpdatePriorityInteractiveObject()
+{
+
+}
+

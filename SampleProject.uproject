@@ -11,7 +11,11 @@
 			"AdditionalDependencies": [
 				"Engine"
 			]
-		}
+		},
+		{
+            "Name": "TZCore",
+            "Type": "Runtime"
+        }
 	],
 	"Plugins": [
 		{
