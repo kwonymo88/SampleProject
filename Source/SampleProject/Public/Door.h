@@ -9,6 +9,17 @@
 
 class UCapsuleComponent;
 
+UENUM()
+enum class EDoorState : uint8
+{
+	Open,
+	Opening,
+	Close,
+	Closing
+};
+
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FChangedDoorStateSignature, ADoor, OnChangedDoorState, EDoorState, UpdatedDoorState);
+
 UCLASS()
 class SAMPLEPROJECT_API ADoor : public AActor, public IInteractiveObjectInterface
 {
@@ -26,6 +37,30 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY(Transient, BlueprintReadOnly)
+	EDoorState	DoorState;
+
+	void SetDoorState(const EDoorState NewDoorState);
+	bool ShouldActionDoorState();
+
+public:
+	UPROPERTY(BlueprintAssignable, Category="Door|State")
+	FChangedDoorStateSignature OnChangedDoorState;
+
+public:
+	bool OpenDoor();
+	bool CloseDoor();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BeginOpening();
+	UFUNCTION(BlueprintCallable)
+	void EndOpening();
+	UFUNCTION(BlueprintImplementableEvent)
+	void BeginClosing();
+	UFUNCTION(BlueprintCallable)
+	void EndClosing();
+		
 	// ============== IInteractiveObjectInterface ================
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Door, meta = (AllowPrivateAccess = "True"))

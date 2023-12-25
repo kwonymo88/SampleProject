@@ -7,6 +7,32 @@ UPlayerInteractionInterface::UPlayerInteractionInterface(const class FObjectInit
 
 }
 
+void IPlayerInteractionInterface::OnUpdatePriorityInteractiveObject()
+{
+
+}
+
+void IPlayerInteractionInterface::TryInteract()
+{
+	if (PriorityInteractiveObject.IsValid()
+		&& PriorityInteractiveObject->ShouldInteract())
+	{
+		PriorityInteractiveObject->DoInteract(this);
+	}
+}
+
+void IPlayerInteractionInterface::AddOverlappedInteractiveObject(IInteractiveObjectInterface* NewOverlappedInteractiveObject)
+{
+	OverlappedInteractiveObject.AddUnique(NewOverlappedInteractiveObject);
+	DeterminePriorityInteractiveObject();
+}
+
+void IPlayerInteractionInterface::RemoveOverlappedInteractiveObject(IInteractiveObjectInterface* RemoveOverlappedInteractiveObject)
+{
+	OverlappedInteractiveObject.Remove(RemoveOverlappedInteractiveObject);
+	DeterminePriorityInteractiveObject();
+}
+
 void IPlayerInteractionInterface::DeterminePriorityInteractiveObject()
 {
 	if (OverlappedInteractiveObject.IsEmpty())
@@ -37,34 +63,5 @@ void IPlayerInteractionInterface::SetPriorityInteractiveObject(IInteractiveObjec
 		}
 		PriorityInteractiveObject = NewPriorityInteractiveObject;
 		OnUpdatePriorityInteractiveObject();
-	}
-}
-
-void IPlayerInteractionInterface::OnUpdatePriorityInteractiveObject()
-{
-
-}
-
-void IPlayerInteractionInterface::TryInteract()
-{
-	if (PriorityInteractiveObject.IsValid()
-		&& PriorityInteractiveObject->ShouldInteract())
-	{
-		PriorityInteractiveObject->DoInteract(this);
-	}
-}
-
-void IPlayerInteractionInterface::AddOverlappedInteractiveObject(IInteractiveObjectInterface* NewOverlappedInteractiveObject)
-{
-	OverlappedInteractiveObject.AddUnique(NewOverlappedInteractiveObject);
-	DeterminePriorityInteractiveObject();
-}
-
-void IPlayerInteractionInterface::RemoveOverlappedInteractiveObject(IInteractiveObjectInterface* RemoveOverlappedInteractiveObject)
-{
-	OverlappedInteractiveObject.Remove(RemoveOverlappedInteractiveObject);
-	if (PriorityInteractiveObject == RemoveOverlappedInteractiveObject)
-	{
-		DeterminePriorityInteractiveObject();
 	}
 }

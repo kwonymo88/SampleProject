@@ -25,7 +25,6 @@ class TZCORE_API IInteractiveObjectInterface : public IInterface
 
 protected:
 	TWeakObjectPtr<UCapsuleComponent> InteractiveCapsuleComponent;
-	bool _bInteracting = false;
 
 protected:
 	FOnEnableInteractDelegate _OnEnableInteractDelegate;
@@ -42,8 +41,6 @@ public:
 public:
 	virtual void DoInteract(IPlayerInteractionInterface* PlayerInteractionInterface);
 	virtual void EndInteract();
-
-public:
 	virtual void OnInteracting(const bool Interacting) {}
 	virtual bool ShouldInteract();
 	

@@ -9,12 +9,14 @@ FName ADoor::CapsuleComponentName(TEXT("CollisionForInteraction"));
 ADoor::ADoor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	if (CollisionForInteraction = CreateDefaultSubobject<UCapsuleComponent>(ADoor::CapsuleComponentName))
 	{
 		CollisionForInteraction->SetupAttachment(GetRootComponent());
-		
+		SetRootComponent(CollisionForInteraction);
+
+
 		SetCollisionComponent(CollisionForInteraction);
 	}
 }
@@ -35,7 +37,68 @@ void ADoor::Tick(float DeltaTime)
 
 void ADoor::DoInteract(IPlayerInteractionInterface* PlayerInteractionInterface)
 {
-	InteractingCharacterInterface = PlayerInteractionInterface;
+	if (!ShouldInteract())
+		return;
+
+	if (InteractingCharacterInterface == PlayerInteractionInterface)
+		return;
+
+	bool bSucceedAction = false;
+	if (DoorState == EDoorState::Open)
+	{
+		bSucceedAction = CloseDoor();
+	}
+	else if (DoorState == EDoorState::Close)
+	{
+		bSucceedAction = OpenDoor();
+	}
+
+	if (bSucceedAction)
+	{
+		IPlayerInteractionInterface* PrevPlayerInteractionInterface = InteractingCharacterInterface.IsValid() ? InteractingCharacterInterface.Get() : nullptr;
+		InteractingCharacterInterface = PlayerInteractionInterface;
+
+		OnInteractCharacter(PlayerInteractionInterface, PrevPlayerInteractionInterface);
+	}
+}
+
+bool ADoor::OpenDoor()
+{
+	SetDoorState(EDoorState::Opening);
+	BeginOpening();
+
+	return true;
+}
+
+bool ADoor::CloseDoor()
+{
+	SetDoorState(EDoorState::Closing);
+	BeginClosing();
+
+	return true;
+}
+
+void ADoor::EndOpening()
+{
+	SetDoorState(EDoorState::Close);
+}
+
+void ADoor::EndClosing()
+{
+	SetDoorState(EDoorState::Open);
+}
+
+void ADoor::SetDoorState(const EDoorState NewDoorState)
+{
+	if (DoorState == NewDoorState)
+		return;
+
+	DoorState = NewDoorState;
+
+	if (OnChangedDoorState.IsBound())
+	{
+		OnChangedDoorState.Broadcast(DoorState);
+	}
 }
 
 void ADoor::EndInteract()
@@ -50,5 +113,21 @@ bool ADoor::ShouldInteract()
 		return false;
 	}
 
+	if (!ShouldActionDoorState())
+	{
+		return false;
+	}
+
 	return true;
+}
+
+bool ADoor::ShouldActionDoorState()
+{
+	if (DoorState == EDoorState::Open
+		|| DoorState == EDoorState::Close)
+	{
+		return true;
+	}
+
+	return false;
 }
