@@ -8,6 +8,9 @@
 #include "MyCharacter.generated.h"
 
 class IAvatarInteractableInterface;
+class UInputMappingContext;
+class UInputAction;
+struct FInputActionInstance;
 
 UCLASS()
 class SAMPLEPROJECT_API AMyCharacter : public ACharacter, public IPlayerInteractionInterface
@@ -35,4 +38,22 @@ public:
 
 protected:
 	virtual void OnUpdatePriorityInteractiveObject() override;
+
+	//============== EnhancedInput ===================
+public:
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	TSoftObjectPtr<UInputMappingContext> DefaultMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	TSoftObjectPtr<UInputAction> JumpAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	TSoftObjectPtr<UInputAction> LookAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	TSoftObjectPtr<UInputAction> MoveAction;
+
+protected:
+	void Move(const FInputActionInstance& Instance);
+	void Look(const FInputActionInstance& Instance);
 };
