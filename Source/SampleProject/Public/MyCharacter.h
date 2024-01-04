@@ -7,6 +7,7 @@
 #include "TZCore/Public/Interface/PlayerInteractionInterface.h"
 #include "MyCharacter.generated.h"
 
+class ATZWeapon;
 class IAvatarInteractableInterface;
 class UInputMappingContext;
 class UInputAction;
@@ -42,24 +43,24 @@ protected:
 	//================= Weapon ===============
 protected:
 	UPROPERTY(EditDefaultsOnly, Category="MyCharacter | Weapon")
-	TSubclassOf<AActor> WeaponClass;
-	TObjectPtr<AActor> Weapon;
+	TSubclassOf<ATZWeapon> WeaponClass;
+	TObjectPtr<ATZWeapon> CurrentWeapon;
 
 public:
-	bool SetWeapon(AActor* NewWeapon);
+	bool SetWeapon(ATZWeapon* NewWeapon);
 
 	//============== EnhancedInput ===================
 public:
-	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UPROPERTY(EditDefaultsOnly, Category = "MyCharacter | Input")
 	TSoftObjectPtr<UInputMappingContext> DefaultMappingContext;
 
-	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UPROPERTY(EditDefaultsOnly, Category = "MyCharacter | Input")
 	TSoftObjectPtr<UInputAction> JumpAction;
 
-	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UPROPERTY(EditDefaultsOnly, Category = "MyCharacter | Input")
 	TSoftObjectPtr<UInputAction> LookAction;
 
-	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UPROPERTY(EditDefaultsOnly, Category = "MyCharacter | Input")
 	TSoftObjectPtr<UInputAction> MoveAction;
 
 protected:

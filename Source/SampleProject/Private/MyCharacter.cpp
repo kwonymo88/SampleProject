@@ -3,6 +3,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "TZWeapon.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -31,7 +32,7 @@ void AMyCharacter::BeginPlay()
 	//PickUp 오브젝트 전에 임시로 추가
 	if (WeaponClass)
 	{
-		if (AActor* NewWeapon = GetWorld()->SpawnActor<AActor>(WeaponClass))
+		if (ATZWeapon* NewWeapon = GetWorld()->SpawnActor<ATZWeapon>(WeaponClass))
 		{
 			SetWeapon(NewWeapon);
 		}
@@ -68,7 +69,7 @@ void AMyCharacter::OnUpdatePriorityInteractiveObject()
 
 }
 
-bool AMyCharacter::SetWeapon(AActor* NewWeapon)
+bool AMyCharacter::SetWeapon(ATZWeapon* NewWeapon)
 {
 	if (GetMesh()
 		&& NewWeapon
@@ -76,7 +77,11 @@ bool AMyCharacter::SetWeapon(AActor* NewWeapon)
 	{
 		if (NewWeapon->GetRootComponent()->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket")))
 		{
-			Weapon = NewWeapon;
+			CurrentWeapon = NewWeapon;
+			if (CurrentWeapon)
+			{
+				CurrentWeapon->InitCharacter(this);
+			}
 			return true;
 		}
 	}
