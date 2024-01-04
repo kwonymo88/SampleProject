@@ -39,6 +39,15 @@ public:
 protected:
 	virtual void OnUpdatePriorityInteractiveObject() override;
 
+	//================= Weapon ===============
+protected:
+	UPROPERTY(EditDefaultsOnly, Category="MyCharacter | Weapon")
+	TSubclassOf<AActor> WeaponClass;
+	TObjectPtr<AActor> Weapon;
+
+public:
+	bool SetWeapon(AActor* NewWeapon);
+
 	//============== EnhancedInput ===================
 public:
 	UPROPERTY(EditDefaultsOnly, Category = Input)

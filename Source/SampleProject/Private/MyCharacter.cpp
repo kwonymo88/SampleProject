@@ -27,6 +27,15 @@ void AMyCharacter::BeginPlay()
 			}
 		}
 	}
+
+	//PickUp 오브젝트 전에 임시로 추가
+	if (WeaponClass)
+	{
+		if (AActor* NewWeapon = GetWorld()->SpawnActor<AActor>(WeaponClass))
+		{
+			SetWeapon(NewWeapon);
+		}
+	}
 }
 
 // Called every frame
@@ -57,6 +66,21 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AMyCharacter::OnUpdatePriorityInteractiveObject()
 {
 
+}
+
+bool AMyCharacter::SetWeapon(AActor* NewWeapon)
+{
+	if (GetMesh()
+		&& NewWeapon
+		&& NewWeapon->GetRootComponent())
+	{
+		if (NewWeapon->GetRootComponent()->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket")))
+		{
+			Weapon = NewWeapon;
+			return true;
+		}
+	}
+	return false;
 }
 
 void AMyCharacter::Move(const FInputActionInstance& Instance)
