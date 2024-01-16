@@ -1,8 +1,8 @@
 KwonYoungMo
 
 1. Enhanced Input System 테스트
-2. 범용 사용을 위해 TZCore를 제작
-3. TZCore에 IPlayerInteractionInterface 추가
+2. 범용 목적의 TZCore 모듈 제작
+3. TZCore모듈에 IPlayerInteractionInterface 추가
 
 //엔진 커스텀 BindWidget
 
