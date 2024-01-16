@@ -1,5 +1,3 @@
-KwonYoungMo
-
 1. Enhanced Input System 테스트
 2. 범용 목적의 TZCore 모듈 제작
 3. TZCore모듈에 IPlayerInteractionInterface 추가
