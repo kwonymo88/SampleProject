@@ -5,6 +5,7 @@ KwonYoungMo
 3. TZCore에 IPlayerInteractionInterface 추가
 
 //엔진 커스텀 BindWidget
+
 BindWidget MetaData를 가진 Widget을 구분해줄 수 없을까?
 ![image](https://github.com/kwonymo88/SampleProject/assets/39462665/78c65a9a-83ec-4d4a-bc21-7ceeed07f1aa)
 
