@@ -19,3 +19,5 @@ FHierarchyWidget에서 BindWidget일때 FSlateFontInfo에 아웃라인 정보 �
 BindWidget에는 파란색 Outline을 표시하여 디자이너의 실수를 줄이기
 
 ![image](https://github.com/kwonymo88/SampleProject/assets/39462665/3af495c8-c407-49f2-9f8a-96fd0e08e4d1)
+
+※FObjectPropertyBase에서 BindWidget MetaData를 읽어오게 바꾸는 개선 사향
